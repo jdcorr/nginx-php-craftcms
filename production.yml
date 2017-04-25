@@ -1,0 +1,9 @@
+web:
+  build: .
+  restart: always
+
+mariadb:
+  restart: always
+
+redis:
+  restart: always

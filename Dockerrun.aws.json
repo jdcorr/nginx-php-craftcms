@@ -1,0 +1,148 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "web-craft-app",
+      "host": {
+        "sourcePath": "/var/app/current/craft/app"
+      }
+    },
+    {
+      "name": "web-craft-templates",
+      "host": {
+        "sourcePath": "/var/app/current/craft/templates"
+      }
+    },
+    {
+      "name": "web-craft-plugins",
+      "host": {
+        "sourcePath": "/var/app/current/craft/plugins"
+      }
+    },
+    {
+      "name": "web-public",
+      "host": {
+        "sourcePath": "/var/app/current/public"
+      }
+    },
+    {
+      "name": "mariadb",
+      "host": {
+        "sourcePath": "/var/app/current/craft/storage/backups"
+      }
+    },
+    {
+      "name": "redis",
+      "host": {
+        "sourcePath": "/data"
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "web",
+      "image": "066377918709.dkr.ecr.us-west-1.amazonaws.com/slice-craft-dev:latest",
+      "environment": [
+        {
+          "name": "LANG",
+          "value": "C.UTF-8"
+        },
+        {
+          "name": "REDIS_HOST",
+          "value": "redis"
+        },
+        {
+          "name": "DB_HOST",
+          "value": "mariadb"
+        },
+        {
+          "name": "DB_NAME",
+          "value": "craft"
+        },
+        {
+          "name": "DB_PORT",
+          "value": "3306"
+        },
+        {
+          "name": "DB_USER",
+          "value": "craft"
+        },
+        {
+          "name": "DB_PASS",
+          "value": "secret"
+        }
+      ],
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "web-craft-app",
+          "containerPath": "/usr/share/nginx/craft/app"
+        },
+        {
+          "sourceVolume": "web-craft-templates",
+          "containerPath": "/usr/share/nginx/craft/templates"
+        },
+        {
+          "sourceVolume": "web-craft-plugins",
+          "containerPath": "/usr/share/nginx/craft/plugins"
+        },
+        {
+          "sourceVolume": "web-public",
+          "containerPath": "/usr/share/nginx/html"
+        }
+      ],
+      "links": [
+        "mariadb",
+        "redis"
+      ]
+    },
+    {
+      "name": "mariadb",
+      "image": "mariadb:10.1",
+      "environment": [
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "root"
+        },
+        {
+          "name": "MYSQL_USER",
+          "value": "craft"
+        },
+        {
+          "name": "MYSQL_PASSWORD",
+          "value": "secret"
+        },
+        {
+          "name": "MYSQL_DATABASE",
+          "value": "craft"
+        }
+      ],
+      "essential": true,
+      "memory": 128,
+      "mountPoints": [
+        {
+          "sourceVolume": "mariadb",
+          "containerPath": "/docker-entrypoint-initdb.d"
+        }
+      ]
+    },
+    {
+      "name": "redis",
+      "image": "redis:alpine",
+      "memory": 256,
+      "mountPoints": [
+        {
+          "sourceVolume": "redis",
+          "containerPath": "/data"
+        }
+      ]
+    }
+  ]
+}
