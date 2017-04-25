@@ -1,0 +1,9 @@
+{
+	"buttons": ["format","bold","italic","lists","link","file","horizontalrule"],
+	"plugins": ["source","fullscreen"],
+	"paragraphize": false,
+    "linebreaks": true,
+    "enterKey": false,
+    "replaceDivs": false,
+    "deniedTags": ["br", "p"],
+}
