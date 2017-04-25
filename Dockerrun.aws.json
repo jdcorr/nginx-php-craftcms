@@ -20,6 +20,12 @@
       }
     },
     {
+      "name": "web-craft-config",
+      "host": {
+        "sourcePath": "/var/app/current/craft/config"
+      }
+    },
+    {
       "name": "web-public",
       "host": {
         "sourcePath": "/var/app/current/public"
@@ -41,7 +47,7 @@
   "containerDefinitions": [
     {
       "name": "web",
-      "image": "066377918709.dkr.ecr.us-west-1.amazonaws.com/slice-craft-dev:latest",
+      "image": "DOCKER HUB repo goes here",
       "environment": [
         {
           "name": "LANG",
@@ -92,6 +98,10 @@
         {
           "sourceVolume": "web-craft-plugins",
           "containerPath": "/usr/share/nginx/craft/plugins"
+        },
+        {
+          "sourceVolume": "web-craft-config",
+          "containerPath": "/usr/share/nginx/craft/config"
         },
         {
           "sourceVolume": "web-public",

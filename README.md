@@ -24,7 +24,7 @@ This project utilizes Craft CMS to manage custom data entries. Find out more at:
 To initially create the image, follow the instructions here: https://docs.docker.com/machine/examples/aws/
 
 1. Create AWS machine
-`docker-machine create --driver amazonec2 --amazonec2-region us-west-1 slice-technologies-dev`
+`docker-machine create --driver amazonec2 --amazonec2-region us-west-1 name-of-app-env`
 
 Otherwise, if environment already exists:
 
@@ -49,8 +49,8 @@ Recreating web_1
 
 ### Setup AWS Elastic Beanstalk
 1. Visit Elastic Beanstalk section in AWS Admin Panel
-2. Create a new application named Slice
-3. Create a new environment named slice-staging with the application type of Docker Multi-container
+2. Create a new application
+3. Create a new environment with the application type of Docker Multi-container
 
 ### Deploy to AWS Elastic Beanstalk
 1. Zip up all files within the repo and use that zip as the source to upload into Elastic Beanstalk by clicking the Upload and Deploy button. Additionally, you can use the EB cli to do this from the command line (http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html) to bypass the AWS UI, if preferred.
